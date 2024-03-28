@@ -61,6 +61,8 @@
     <Folder Include="Security\" />
     <Folder Include="Seguridad\" />
     <Folder Include="Seguridad\Tables\" />
+    <Folder Include="Clientes\" />
+    <Folder Include="Clientes\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -73,5 +75,7 @@
     <Build Include="Security\Catalogos.sql" />
     <Build Include="Seguridad\Tables\tblUsuarios.sql" />
     <Build Include="Security\Seguridad.sql" />
+    <Build Include="Clientes\Tables\tblClientes.sql" />
+    <Build Include="Security\Clientes.sql" />
   </ItemGroup>
 </Project>
