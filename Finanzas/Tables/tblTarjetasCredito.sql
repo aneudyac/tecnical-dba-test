@@ -2,7 +2,7 @@
     [IDTarjetaCredito]  INT             IDENTITY (1, 1) NOT NULL,
     [IDCliente]         INT             NOT NULL,
     [NumeroTarjeta]     VARCHAR (16)    NOT NULL,
-    [LimeteCredito]     DECIMAL (18, 2) CONSTRAINT [D_FinanzasTblTarjetasCredito_LimeteCredito] DEFAULT ((0.00)) NOT NULL,
+    [LimiteCredito]     DECIMAL (18, 2) CONSTRAINT [D_FinanzasTblTarjetasCredito_LimiteCredito] DEFAULT ((0.00)) NOT NULL,
     [DiaDeCorte]        INT             NOT NULL,
     [IDEstatusTarjeta]  INT             NOT NULL,
     [FechaHoraRegistro] DATETIME        CONSTRAINT [D_FinanzasTblTarjetasCredito_FechaHoraRegistro] DEFAULT (getdate()) NOT NULL,
