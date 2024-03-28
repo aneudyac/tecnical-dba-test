@@ -56,5 +56,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Catalogos\" />
+    <Folder Include="Catalogos\Tables\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Catalogos\Tables\tblEstatusTarjetas.sql" />
+    <Build Include="Catalogos\Tables\tblEstatusCuentas.sql" />
+    <Build Include="Catalogos\Tables\tblEstatusClientes.sql" />
+    <Build Include="Security\Catalogos.sql" />
   </ItemGroup>
 </Project>
