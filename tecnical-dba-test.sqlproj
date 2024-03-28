@@ -63,6 +63,8 @@
     <Folder Include="Seguridad\Tables\" />
     <Folder Include="Clientes\" />
     <Folder Include="Clientes\Tables\" />
+    <Folder Include="Finanzas\" />
+    <Folder Include="Finanzas\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -77,5 +79,10 @@
     <Build Include="Security\Seguridad.sql" />
     <Build Include="Clientes\Tables\tblClientes.sql" />
     <Build Include="Security\Clientes.sql" />
+    <Build Include="Finanzas\Tables\tblTarjetasDebito.sql" />
+    <Build Include="Finanzas\Tables\tblCuentas.sql" />
+    <Build Include="Finanzas\Tables\tblMovientos.sql" />
+    <Build Include="Finanzas\Tables\tblTarjetasCredito.sql" />
+    <Build Include="Security\Finanzas.sql" />
   </ItemGroup>
 </Project>
