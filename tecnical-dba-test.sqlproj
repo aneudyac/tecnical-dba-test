@@ -59,6 +59,8 @@
     <Folder Include="Catalogos\" />
     <Folder Include="Catalogos\Tables\" />
     <Folder Include="Security\" />
+    <Folder Include="Seguridad\" />
+    <Folder Include="Seguridad\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -69,5 +71,7 @@
     <Build Include="Catalogos\Tables\tblEstatusCuentas.sql" />
     <Build Include="Catalogos\Tables\tblEstatusClientes.sql" />
     <Build Include="Security\Catalogos.sql" />
+    <Build Include="Seguridad\Tables\tblUsuarios.sql" />
+    <Build Include="Security\Seguridad.sql" />
   </ItemGroup>
 </Project>
