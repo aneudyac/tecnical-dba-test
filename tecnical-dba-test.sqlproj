@@ -65,10 +65,15 @@
     <Folder Include="Clientes\Tables\" />
     <Folder Include="Finanzas\" />
     <Folder Include="Finanzas\Tables\" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Catalogos" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="Scripts\Catalogos\EstatusClientes.sql" />
+    <None Include="Scripts\Catalogos\EstatusCuentas.sql" />
+    <None Include="Scripts\Catalogos\EstatusTarjetas.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Catalogos\Tables\tblEstatusTarjetas.sql" />
@@ -84,5 +89,8 @@
     <Build Include="Finanzas\Tables\tblMovientos.sql" />
     <Build Include="Finanzas\Tables\tblTarjetasCredito.sql" />
     <Build Include="Security\Finanzas.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
 </Project>

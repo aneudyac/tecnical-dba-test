@@ -6,8 +6,11 @@
     [DiaDeCorte]        INT             NOT NULL,
     [IDEstatusTarjeta]  INT             NOT NULL,
     [FechaHoraRegistro] DATETIME        CONSTRAINT [D_FinanzasTblTarjetasCredito_FechaHoraRegistro] DEFAULT (getdate()) NOT NULL,
+    [Credito]           DECIMAL (18, 2) NULL,
     CONSTRAINT [Pk_FinanzasTblTarjetasCredito_IDTarjetaCredito] PRIMARY KEY CLUSTERED ([IDTarjetaCredito] ASC),
     CONSTRAINT [Fk_FinanzasTblTarjetasCredito_CatalogosTblEstatusTarjetas_IDEstatusTarjeta] FOREIGN KEY ([IDEstatusTarjeta]) REFERENCES [Catalogos].[tblEstatusTarjetas] ([IDEstatusTarjeta]),
     CONSTRAINT [Fk_FinanzasTblTarjetasCredito_ClientesTblClientes_IDCliente] FOREIGN KEY ([IDCliente]) REFERENCES [Clientes].[tblClientes] ([IDCliente])
 );
+
+
 
