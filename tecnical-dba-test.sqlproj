@@ -69,6 +69,7 @@
     <Folder Include="Scripts\Catalogos" />
     <Folder Include="Finanzas\Stored Procedures\" />
     <Folder Include="Clientes\Stored Procedures\" />
+    <Folder Include="Scripts\Seeds" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -76,6 +77,9 @@
     <None Include="Scripts\Catalogos\EstatusClientes.sql" />
     <None Include="Scripts\Catalogos\EstatusCuentas.sql" />
     <None Include="Scripts\Catalogos\EstatusTarjetas.sql" />
+    <None Include="Scripts\Seeds\Usuarios.sql" />
+    <None Include="Scripts\Seeds\Clientes.sql" />
+    <None Include="Scripts\Seeds\CuentasDebitosCreditos.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Catalogos\Tables\tblEstatusTarjetas.sql" />
@@ -88,12 +92,13 @@
     <Build Include="Security\Clientes.sql" />
     <Build Include="Finanzas\Tables\tblTarjetasDebito.sql" />
     <Build Include="Finanzas\Tables\tblCuentas.sql" />
-    <Build Include="Finanzas\Tables\tblMovientos.sql" />
+    <Build Include="Finanzas\Tables\tblMovimientos.sql" />
     <Build Include="Finanzas\Tables\tblTarjetasCredito.sql" />
     <Build Include="Security\Finanzas.sql" />
     <Build Include="Finanzas\Stored Procedures\spIRetiroDebito.sql" />
     <Build Include="Finanzas\Stored Procedures\spIRetiroCredito.sql" />
     <Build Include="Clientes\Stored Procedures\spValidarEstatusCliente.sql" />
+    <Build Include="Finanzas\Stored Procedures\spIAbonoDebito.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
