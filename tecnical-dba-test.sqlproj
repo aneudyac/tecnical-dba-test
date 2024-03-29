@@ -67,6 +67,8 @@
     <Folder Include="Finanzas\Tables\" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\Catalogos" />
+    <Folder Include="Finanzas\Stored Procedures\" />
+    <Folder Include="Clientes\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -89,6 +91,9 @@
     <Build Include="Finanzas\Tables\tblMovientos.sql" />
     <Build Include="Finanzas\Tables\tblTarjetasCredito.sql" />
     <Build Include="Security\Finanzas.sql" />
+    <Build Include="Finanzas\Stored Procedures\spIRetiroDebito.sql" />
+    <Build Include="Finanzas\Stored Procedures\spIRetiroCredito.sql" />
+    <Build Include="Clientes\Stored Procedures\spValidarEstatusCliente.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
