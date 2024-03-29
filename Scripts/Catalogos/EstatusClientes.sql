@@ -13,6 +13,7 @@
 			values(1,'ACTIVO')
 			     ,(2,'INACTIVO')
 			     ,(3,'SUSPENDIDO')
+			     ,(4,'BLOQUEADO')
 			/*Agregar EstatusClientes en este segmento*/
 
 			MERGE [Catalogos].[tblEstatusClientes] AS TARGET
