@@ -4,6 +4,7 @@
 ) as
 	declare 
 		@ESTATUS_TARJETA_BLOQUEADA int = 3,
+		@ESTATUS_CUENTA_BLOQUEADA int = 3,
 		@LIMITE_DE_RETIRO decimal(18,2) = 5000.00,
 
 		@IDEstatusActualTarjeta int,
@@ -33,6 +34,11 @@
 				IDEstatusTarjeta = @ESTATUS_TARJETA_BLOQUEADA
 		where IDTarjetaDebito = @IDTarjetaDebito	
 
+		update [Finanzas].[tblCuentas]
+			set 
+				IDEstatusCuenta = @ESTATUS_CUENTA_BLOQUEADA
+		where IDCuenta = @IDCuenta	
+
 		exec [Clientes].[spValidarEstatusCliente] @IDCliente = @IDCliente
 
 		raiserror('Tarjeta bloqueada por intentar retiro mayor al monto permitido.', 16, 1);
@@ -45,5 +51,5 @@
 		return
 	end
 
-	insert [Finanzas].[tblMovientos](IDCuenta, IDTarjetaDebito, Cargo)
+	insert [Finanzas].[tblMovimientos](IDCuenta, IDTarjetaDebito, Cargo)
 	values(@IDCuenta, @IDTarjetaDebito, @Monto)
