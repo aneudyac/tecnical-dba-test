@@ -8,8 +8,82 @@
     [SaldoActual]       DECIMAL (18, 2) CONSTRAINT [D_FinanzasTblMovientos_SaldoActual] DEFAULT ((0.00)) NOT NULL,
     [FechaHoraRegistro] DATETIME        CONSTRAINT [D_FinanzasTblMovimientos_FechaHoraRegistro] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [Pk_FinanzasTblMovientos_IDMoviento] PRIMARY KEY CLUSTERED ([IDMoviento] ASC),
-    CONSTRAINT [Fk_FinanzasTblMovientos_FinanzasTblTarjetasCredito_IDTarjetaCredito] FOREIGN KEY ([IDTarjetaCredito]) REFERENCES [Finanzas].[tblTarjetasCredito] ([IDTarjetaCredito]),
     CONSTRAINT [Fk_FinanzasTblMovientos_FinanzasTblCuentas_IDCuenta] FOREIGN KEY ([IDCuenta]) REFERENCES [Finanzas].[tblCuentas] ([IDCuenta]),
+    CONSTRAINT [Fk_FinanzasTblMovientos_FinanzasTblTarjetasCredito_IDTarjetaCredito] FOREIGN KEY ([IDTarjetaCredito]) REFERENCES [Finanzas].[tblTarjetasCredito] ([IDTarjetaCredito]),
     CONSTRAINT [Fk_FinanzasTblMovientos_FinanzasTblTarjetasDebito_IDTarjetaDebito] FOREIGN KEY ([IDTarjetaDebito]) REFERENCES [Finanzas].[tblTarjetasDebito] ([IDTarjetaDebito])
 );
 
+
+
+
+GO
+CREATE TRIGGER Finanzas.trActualizarCuentaMonto
+ON Finanzas.tblMovientos
+AFTER INSERT
+AS
+BEGIN
+    DECLARE 
+		@IDCuenta INT, 
+		@IDTarjetaDebito INT, 
+		@Cargo DECIMAL(18, 2),
+		@IDCliente INT
+	;
+
+    SELECT 
+		@IDCuenta = IDCuenta, 
+		@IDTarjetaDebito = IDTarjetaDebito, 
+		@Cargo = Cargo
+    FROM inserted;
+
+    IF @IDCuenta IS NOT NULL AND @IDTarjetaDebito IS NOT NULL AND @Cargo > 0
+    BEGIN
+        UPDATE [Finanzas].[tblCuentas]
+			SET Saldo = Saldo - @Cargo
+        WHERE IDCuenta = @IDCuenta;
+    END;
+
+    -- Ejecutar procedimiento almacenado para validar estatus del cliente
+    SELECT @IDCliente = IDCliente
+    FROM [Finanzas].tblCuentas
+    WHERE IDCuenta = @IDCuenta;
+
+    IF @IDCliente IS NOT NULL
+    BEGIN
+        EXEC [Clientes].[spValidarEstatusCliente] @IDCliente = @IDCliente;
+    END;
+END;
+GO
+
+CREATE TRIGGER Finanzas.trActualizarCreditoTarjeta
+ON Finanzas.tblMovientos
+AFTER INSERT
+AS
+BEGIN
+    DECLARE 
+		@IDTarjetaCredito INT, 
+		@IDCliente INT,
+		@Abono DECIMAL(18, 2)
+	;
+
+    SELECT 
+		@IDTarjetaCredito = IDTarjetaCredito, 
+		@Abono = Abono
+    FROM inserted;
+
+    IF @IDTarjetaCredito IS NOT NULL AND @Abono > 0
+    BEGIN
+        UPDATE Finanzas.tblTarjetasCredito
+			SET Credito = Credito + @Abono
+        WHERE IDTarjetaCredito = @IDTarjetaCredito;
+    END;
+
+    -- Ejecutar procedimiento almacenado para validar estatus del cliente
+    SELECT @IDCliente = IDCliente
+    FROM [Finanzas].tblTarjetasCredito
+    WHERE IDTarjetaCredito = @IDTarjetaCredito;
+
+    IF @IDCliente IS NOT NULL
+    BEGIN
+        EXEC [Clientes].[spValidarEstatusCliente] @IDCliente = @IDCliente;
+    END;
+END;
