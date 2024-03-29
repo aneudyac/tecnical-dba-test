@@ -36,5 +36,5 @@ create   proc [Finanzas].[spIRetiroCredito](
 		return
 	end
 
-	insert [Finanzas].[tblMovientos](IDTarjetaCredito, Cargo)
+	insert [Finanzas].[tblMovimientos](IDTarjetaCredito, Cargo)
 	values(@IDTarjetaCredito, @Monto)
