@@ -13,3 +13,9 @@ Post-Deployment Script Template
 :r .\Catalogos\EstatusClientes.sql
 :r .\Catalogos\EstatusCuentas.sql
 :r .\Catalogos\EstatusTarjetas.sql
+
+BEGIN -- SEEDS
+    :r .\Seeds\Usuarios.sql
+    :r .\Seeds\Clientes.sql
+    :r .\Seeds\CuentasDebitosCreditos.sql
+END
