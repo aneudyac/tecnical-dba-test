@@ -4,6 +4,7 @@ create   proc [Clientes].[spValidarEstatusCliente](
 ) as
 begin
 	declare 
+		@ESTATUS_CLIENTE_INACTIVO int = 2,
 		@ESTATUS_CLIENTE_BLOQUEADO int = 4,
 		@MINIMO_TARJETAS_BLOQUEADAS_PERMITIDAS int = 2,
 		@ESTATUS_TARJETA_BLOQUEADA int = 3,
@@ -19,7 +20,7 @@ begin
 	select @TotalTarjetasBloqueadas = count(IDEstatusTarjeta) + @TotalTarjetasBloqueadas
 	from [Finanzas].[tblCuentas] c
 		inner join [Finanzas].[tblTarjetasDebito] td on td.IDCuenta = c.IDCuenta
-	where c.IDCliente = @IDCliente
+	where c.IDCliente = @IDCliente and td.IDEstatusTarjeta = @ESTATUS_TARJETA_BLOQUEADA
 
 	if (@TotalTarjetasBloqueadas >= @MINIMO_TARJETAS_BLOQUEADAS_PERMITIDAS)
 	begin
@@ -40,7 +41,7 @@ begin
 	begin
 		update [Clientes].[tblClientes]
 			set
-				IDEstatusCliente = @ESTATUS_CLIENTE_BLOQUEADO
+				IDEstatusCliente = @ESTATUS_CLIENTE_INACTIVO
 		where IDCliente = @IDCliente
 
 		return
