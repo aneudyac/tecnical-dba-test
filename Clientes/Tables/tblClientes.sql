@@ -10,8 +10,12 @@
     [FechaNacimiento]   DATE          NOT NULL,
     [FechaHoraRegistro] DATETIME      CONSTRAINT [D_ClientesTblClientes_FechaHoraRegistro] DEFAULT (getdate()) NOT NULL,
     [IDUsuarioCreador]  INT           NOT NULL,
+    [Sexo]              CHAR (1)      NULL,
+    [PhotoUrl]          VARCHAR (MAX) NULL,
     CONSTRAINT [Pk_ClientesTblClientes_IDCliente] PRIMARY KEY CLUSTERED ([IDCliente] ASC),
     CONSTRAINT [Fk_ClientesTblClientes_CatalogosTblEstatusClientes_IDEstatusCliente] FOREIGN KEY ([IDEstatusCliente]) REFERENCES [Catalogos].[tblEstatusClientes] ([IDEstatusCliente]),
     CONSTRAINT [Fk_ClientesTblClientes_SeguridadTblUsuarioss_IDUsuarioCreador] FOREIGN KEY ([IDUsuarioCreador]) REFERENCES [Seguridad].[tblUsuarios] ([IDUsuario])
 );
+
+
 
