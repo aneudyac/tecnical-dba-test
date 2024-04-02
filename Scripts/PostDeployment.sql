@@ -18,4 +18,6 @@ BEGIN -- SEEDS
     :r .\Seeds\Usuarios.sql
     :r .\Seeds\Clientes.sql
     :r .\Seeds\CuentasDebitosCreditos.sql
+    :r .\Seeds\RetirosDebito.sql
+    :r .\Seeds\RetirosCredito.sql
 END
