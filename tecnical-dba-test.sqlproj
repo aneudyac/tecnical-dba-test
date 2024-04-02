@@ -72,6 +72,7 @@
     <Folder Include="Scripts\Seeds" />
     <Folder Include="Scripts\Utils" />
     <Folder Include="Clientes\Views\" />
+    <Folder Include="Finanzas\Views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -110,6 +111,7 @@
     <Build Include="Finanzas\Stored Procedures\spIAbonoDebito.sql" />
     <Build Include="Catalogos\Tables\tblTiposTarjetas.sql" />
     <Build Include="Clientes\Views\vwListadoClientes.sql" />
+    <Build Include="Finanzas\Views\vwCuentas.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
