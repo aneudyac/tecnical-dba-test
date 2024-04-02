@@ -1,29 +1,60 @@
-﻿create   proc [Finanzas].[spIAbonoDebito](
-	@IDTarjetaDebito int,
-	@Monto decimal(18,2)
-) as
-	declare 
-		@ESTATUS_TARJETA_BLOQUEADA int = 3,
+﻿CREATE   PROCEDURE [Finanzas].[spIAbonoDebito](
+    @IDTarjetaDebito INT,
+    @Monto DECIMAL(18,2)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-		@IDEstatusActualTarjeta int,
-		@IDCliente int,
-		@IDCuenta int,
-		@Saldo	decimal(18,2)		
-	;
+    DECLARE 
+        @ESTATUS_TARJETA_BLOQUEADA INT = 3,
+        @IDEstatusActualTarjeta INT,
+        @IDCliente INT,
+        @IDCuenta INT,
+        @Saldo DECIMAL(18,2);
 
-	select 
-		@IDCliente = c.IDCliente,
-		@IDCuenta = c.IDCuenta,
-		@Saldo = c.Saldo
-	from [Finanzas].[tblTarjetasDebito] td
-		inner join [Finanzas].[tblCuentas] c on c.IDCuenta = td.IDCuenta
-	where td.IDTarjetaDebito = @IDTarjetaDebito	
+    -- Obtener el IDCliente, IDCuenta y Saldo de la tarjeta de débito
+    SELECT 
+        @IDCliente = c.IDCliente,
+        @IDCuenta = c.IDCuenta,
+        @Saldo = c.Saldo,
+        @IDEstatusActualTarjeta = td.IDEstatusTarjeta
+    FROM [Finanzas].[tblTarjetasDebito] td
+    INNER JOIN [Finanzas].[tblCuentas] c ON c.IDCuenta = td.IDCuenta
+    WHERE td.IDTarjetaDebito = @IDTarjetaDebito;
 
-	if (@IDEstatusActualTarjeta = @ESTATUS_TARJETA_BLOQUEADA)
-	begin
-		raiserror('La tarjeta está bloqueada.', 16, 1);
-		return
-	end
-	
-	insert [Finanzas].[tblMovimientos](IDCuenta, IDTarjetaDebito, Abono)
-	values(@IDCuenta, @IDTarjetaDebito, @Monto)
+    -- Verificar si la tarjeta está bloqueada
+    IF (@IDEstatusActualTarjeta = @ESTATUS_TARJETA_BLOQUEADA)
+    BEGIN
+        RAISERROR('La tarjeta está bloqueada.', 16, 1);
+        RETURN;
+    END;
+
+    -- Realizar el abono en la cuenta
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        UPDATE [Finanzas].[tblCuentas]
+			SET Saldo = Saldo + @Monto
+        WHERE IDCuenta = @IDCuenta;
+
+        INSERT INTO [Finanzas].[tblMovimientos] (IDCuenta, IDTarjetaDebito, Abono)
+        VALUES (@IDCuenta, @IDTarjetaDebito, @Monto);
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        -- Manejar el error adecuadamente
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
+
+        SELECT 
+            @ErrorMessage = ERROR_MESSAGE(),
+            @ErrorSeverity = ERROR_SEVERITY(),
+            @ErrorState = ERROR_STATE();
+
+        RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH;
+END;
