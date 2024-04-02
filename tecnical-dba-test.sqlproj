@@ -118,6 +118,7 @@
     <Build Include="Finanzas\Views\vwTarjetasCreditos.sql" />
     <Build Include="Finanzas\Views\vwTarjetasDebito.sql" />
     <Build Include="Finanzas\Views\vwTotalesCreditosCuentas.sql" />
+    <Build Include="Finanzas\Views\vwTotalesCreditosCuentasPorClientes.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
