@@ -2,19 +2,18 @@
 
 
 declare 
-	@IDCuenta int,
-	@IDTarjeta int,
-	@SaldoActual decimal(18,2),
-	@LimiteCredito decimal(18,2),
-	@Credito decimal(18,2),
-	@CantidadRetiro int,
-	@PorcentajeRetiro decimal(18, 2),
-	@MontoRetiro decimal(18, 2),
-	@Continue bit,
-
-	@ID_ESTATUS_CLIENTE_ACTIVO int = 1,
-	@ID_ESTATUS_CUENTA_ACTIVA int = 1,
-	@ID_ESTATUS_TARJETA_ACTIVA int = 1
+	@CREDITO_IDTarjeta int,
+	@CREDITO_SaldoActual decimal(18,2),
+	@CREDITO_LimiteCredito decimal(18,2),
+	@CREDITO_Credito decimal(18,2),
+	@CREDITO_CantidadRetiro int,
+	@CREDITO_PorcentajeRetiro decimal(18, 2),
+	@CREDITO_MontoRetiro decimal(18, 2),
+	@CREDITO_Continue bit,
+	 
+	@CREDITO_ID_ESTATUS_CLIENTE_ACTIVO int = 1,
+	@CREDITO_ID_ESTATUS_CUENTA_ACTIVA int = 1,
+	@CREDITO_ID_ESTATUS_TARJETA_ACTIVA int = 1
 ;
 
 if object_id('tempdb..#tempTarjetasCredito') is not null drop table #tempTarjetasCredito;
@@ -25,57 +24,57 @@ select
 	t.Credito
 INTO #tempTarjetasCredito
 from [Clientes].tblClientes c
-	join [Finanzas].[tblTarjetasCredito] t on t.IDCliente = c.IDCliente and t.IDEstatusTarjeta = @ID_ESTATUS_TARJETA_ACTIVA
-where c.IDEstatusCliente = @ID_ESTATUS_CLIENTE_ACTIVO
+	join [Finanzas].[tblTarjetasCredito] t on t.IDCliente = c.IDCliente and t.IDEstatusTarjeta = @CREDITO_ID_ESTATUS_TARJETA_ACTIVA
+where c.IDEstatusCliente = @CREDITO_ID_ESTATUS_CLIENTE_ACTIVO
 
- select @IDTarjeta = min(IDTarjetaCredito)
+ select @CREDITO_IDTarjeta = min(IDTarjetaCredito)
  from #tempTarjetasCredito
 
- while exists(select top 1 1 from #tempTarjetasCredito where IDTarjetaCredito >= @IDTarjeta)
+ while exists(select top 1 1 from #tempTarjetasCredito where IDTarjetaCredito >= @CREDITO_IDTarjeta)
  begin
 	select 
-		@LimiteCredito = LimiteCredito,
-		@Credito = Credito
+		@CREDITO_LimiteCredito = LimiteCredito,
+		@CREDITO_Credito = Credito
 	from #tempTarjetasCredito
-	where IDTarjetaCredito = @IDTarjeta 
+	where IDTarjetaCredito = @CREDITO_IDTarjeta 
 
 	select 
-		@Continue = 1,
-		@CantidadRetiro = 0
+		@CREDITO_Continue = 1,
+		@CREDITO_CantidadRetiro = 0
 	;
 
-	set @SaldoActual = (@LimiteCredito - @Credito)
-	while (@Continue = 1)
+	set @CREDITO_SaldoActual = (@CREDITO_LimiteCredito - @CREDITO_Credito)
+	while (@CREDITO_Continue = 1)
 	begin
 		begin try
-			set @PorcentajeRetiro = (rand() * 5 + 1) / 100.00;
-			set @MontoRetiro = @SaldoActual * @PorcentajeRetiro
+			set @CREDITO_PorcentajeRetiro = (rand() * 5 + 1) / 100.00;
+			set @CREDITO_MontoRetiro = @CREDITO_SaldoActual * @CREDITO_PorcentajeRetiro
 	
-			exec [Finanzas].[spIRetiroCredito] @IDTarjetaCredito=@IDTarjeta, @Monto=@MontoRetiro
+			exec [Finanzas].[spIRetiroCredito] @CREDITO_IDTarjetaCredito=@CREDITO_IDTarjeta, @Monto=@CREDITO_MontoRetiro
 
-			set @Credito = @Credito + @MontoRetiro;
-			set @SaldoActual = (@LimiteCredito - (@Credito))
-			set @CantidadRetiro = @CantidadRetiro + 1
+			set @CREDITO_Credito = @CREDITO_Credito + @CREDITO_MontoRetiro;
+			set @CREDITO_SaldoActual = (@CREDITO_LimiteCredito - (@CREDITO_Credito))
+			set @CREDITO_CantidadRetiro = @CREDITO_CantidadRetiro + 1
 
-			if (@SaldoActual <= (@LimiteCredito * 0.10))
+			if (@CREDITO_SaldoActual <= (@CREDITO_LimiteCredito * 0.10))
 			begin
-				set @Continue = 0
+				set @CREDITO_Continue = 0
 			end
 
-			if (@CantidadRetiro >= 10)
+			if (@CREDITO_CantidadRetiro >= 10)
 			begin
-				set @Continue = 0
+				set @CREDITO_Continue = 0
 			end
 		end try
 		begin catch
-			set @Continue = 0
+			set @CREDITO_Continue = 0
 			SELECT ERROR_MESSAGE()
 		end catch
 
 	end
 
-	select @IDTarjeta = min(IDTarjetaCredito)
+	select @CREDITO_IDTarjeta = min(IDTarjetaCredito)
 	from #tempTarjetasCredito
-	where IDTarjetaCredito > @IDTarjeta
+	where IDTarjetaCredito > @CREDITO_IDTarjeta
 
  end

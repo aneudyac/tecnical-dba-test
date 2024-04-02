@@ -1,5 +1,5 @@
 ﻿declare 
-	@IDCliente int,
+	@IDClienteDEBITO int,
 	@IDTarjetaDebito int,
 	@NumeroCuenta bigint,
 	@NumeroTarjeta bigint,
@@ -16,13 +16,13 @@
 ;
 
 -- Declaración de variables para el bucle
-select @IDCliente = min(IDCliente) from [Clientes].[tblClientes]
+select @IDClienteDEBITO = min(IDCliente) from [Clientes].[tblClientes]
 
 if not exists(select top 1 1 from [Finanzas].[tblCuentas])
 begin
 	while exists(select top 1 1 
 				from [Clientes].[tblClientes]
-				where IDCliente >= @IDCliente
+				where IDCliente >= @IDClienteDEBITO
 			)
 	begin
 
@@ -49,7 +49,7 @@ begin
 
 			-- Insertar cuenta
 			insert into [Finanzas].[tblCuentas] (IDCliente, NumeroCuenta, Saldo, IDEstatusCuenta)
-			values (@IDCliente, @NumeroCuenta, 0.00, @IDEstatusCuenta);
+			values (@IDClienteDEBITO, @NumeroCuenta, 0.00, @IDEstatusCuenta);
 
 			set @IDNuevaCuenta = SCOPE_IDENTITY()
 
@@ -95,13 +95,13 @@ begin
 
 			-- Insertar tarjeta de crédito
 			insert into [Finanzas].[tblTarjetasCredito] (IDCliente, NumeroTarjeta, LimiteCredito, Credito, DiaDeCorte, IDEstatusTarjeta, FechaHoraRegistro)
-			values (@IDCliente, @NumeroTarjeta, @LimiteCredito, 0.00, @DiaDeCorte, @IDEstatusTarjetaCredito, getdate());
+			values (@IDClienteDEBITO, @NumeroTarjeta, @LimiteCredito, 0.00, @DiaDeCorte, @IDEstatusTarjetaCredito, getdate());
 
 		end
 
 		-- Obtener el siguiente ID de cliente
-		select @IDCliente = min(IDCliente) 
+		select @IDClienteDEBITO = min(IDCliente) 
 		from [Clientes].[tblClientes]
-		where IDCliente > @IDCliente;
+		where IDCliente > @IDClienteDEBITO;
 	end
 end
