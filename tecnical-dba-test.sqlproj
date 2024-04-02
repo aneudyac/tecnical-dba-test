@@ -70,6 +70,7 @@
     <Folder Include="Finanzas\Stored Procedures\" />
     <Folder Include="Clientes\Stored Procedures\" />
     <Folder Include="Scripts\Seeds" />
+    <Folder Include="Scripts\Utils" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -80,6 +81,13 @@
     <None Include="Scripts\Seeds\Usuarios.sql" />
     <None Include="Scripts\Seeds\Clientes.sql" />
     <None Include="Scripts\Seeds\CuentasDebitosCreditos.sql" />
+    <None Include="Scripts\Utils\BuscarClientesActivos.sql" />
+    <None Include="Scripts\Utils\TestDebitos.sql" />
+    <None Include="Scripts\Utils\TestCreditos.sql" />
+    <None Include="Scripts\Utils\ResetTables.sql" />
+    <None Include="Scripts\Seeds\RetirosDebito.sql" />
+    <None Include="Scripts\Seeds\RetirosCredito.sql" />
+    <None Include="Scripts\Catalogos\TiposTarjetas.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Catalogos\Tables\tblEstatusTarjetas.sql" />
