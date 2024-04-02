@@ -107,6 +107,7 @@
     <Build Include="Finanzas\Stored Procedures\spIRetiroCredito.sql" />
     <Build Include="Clientes\Stored Procedures\spValidarEstatusCliente.sql" />
     <Build Include="Finanzas\Stored Procedures\spIAbonoDebito.sql" />
+    <Build Include="Catalogos\Tables\tblTiposTarjetas.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
